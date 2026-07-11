@@ -66,7 +66,7 @@ Source: `MaintainIQ_AI_Hackathon_Brief July Coding Night Mern.pdf`. Every mandat
 
 ## Submission Requirements
 
-- [ ] GitHub repo (FE + BE) — local git initialized with modular commits; **you need to create the GitHub repo and push**
+- [x] GitHub repo (FE + BE) — local git initialized with 14 modular commits; **you still need to create the GitHub repo and `git push`**
 - [ ] Deployed application link — **you need Vercel/Render accounts to deploy**
 - [ ] Backend/API link — same as above
 - [x] Demo credentials — see README
