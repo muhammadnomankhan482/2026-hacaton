@@ -1,7 +1,14 @@
 require('dotenv').config();
 
+// Render (and most PaaS dashboards) set an env var to an empty string "" when
+// its field is left blank in the UI - that's a *set* value, not `undefined`,
+// so a plain `??` fallback silently accepts it and Mongoose then fails deep
+// in its connection-string parser with a confusing "Invalid scheme" error.
+// Treating '' the same as unset here surfaces a clear, actionable error at
+// startup instead.
 const required = (name, fallback) => {
-  const value = process.env[name] ?? fallback;
+  const raw = process.env[name];
+  const value = raw === undefined || raw === '' ? fallback : raw;
   if (value === undefined) {
     throw new Error(`Missing required environment variable: ${name}`);
   }
@@ -32,5 +39,15 @@ const env = {
 
   isProduction: (process.env.NODE_ENV || 'development') === 'production',
 };
+
+// Fail loudly and specifically in production if MONGO_URI wasn't actually
+// provided by the platform (as opposed to Mongoose's generic parser error
+// deep in a stack trace, which is what happens otherwise).
+if (env.isProduction && !/^mongodb(\+srv)?:\/\//.test(env.MONGO_URI)) {
+  throw new Error(
+    'MONGO_URI is missing or invalid in production. Set it in your Render service\'s Environment tab to your ' +
+      'MongoDB Atlas connection string (starts with mongodb+srv://).',
+  );
+}
 
 module.exports = env;
