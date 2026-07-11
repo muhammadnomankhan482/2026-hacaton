@@ -28,7 +28,7 @@ const env = {
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || '',
 
   GEMINI_API_KEY: process.env.GEMINI_API_KEY || '',
-  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+  GEMINI_MODEL: process.env.GEMINI_MODEL || 'gemini-flash-latest',
 
   isProduction: (process.env.NODE_ENV || 'development') === 'production',
 };
